@@ -21,7 +21,7 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 @ConfigSerializable
 public class Heal extends Shop {
 	@Setting
-	private int price;
+	private float price;
 	
 	static private String type = "Heal";
 
@@ -35,8 +35,10 @@ public class Heal extends Shop {
 
 		if (CarrotShop.getEcoService() != null) {
 			price = getPrice(sign);
-			if (price < 0)
+			if (price < 0) {
+				setFail();
 				throw new ExceptionInInitializerError(Lang.SHOP_PRICE);
+			}
 		}
 		player.sendMessage(Text.of(TextColors.DARK_GREEN, Lang.SHOP_DONE.replace("%type%", type)));
 		done(player);

@@ -37,7 +37,7 @@ public class Buy extends Shop {
 	@Setting
 	private Location<World> sellerChest;
 	@Setting
-	private int price;
+	private float price;
 
 	static private String type = "Buy";
 	
@@ -58,8 +58,10 @@ public class Buy extends Shop {
 		if (items.totalItems() == 0)
 			throw new ExceptionInInitializerError(Lang.SHOP_CHEST_EMPTY);
 		price = getPrice(sign);
-		if (price < 0)
+		if (price < 0) {
+			setFail();
 			throw new ExceptionInInitializerError(Lang.SHOP_PRICE);
+		}
 		sellerChest = locations.peek();
 		itemsTemplate = Inventory.builder().from(items).build(CarrotShop.getInstance());
 		for(Inventory item : items.slots()) {

@@ -30,7 +30,7 @@ public class DeviceOff extends Shop {
 	@Setting
 	private Location<World> lever;
 	@Setting
-	private int price;
+	private float price;
 	
 	static private String type = "DeviceOff";
 
@@ -52,8 +52,10 @@ public class DeviceOff extends Shop {
 
 		if (CarrotShop.getEcoService() != null) {
 			price = getPrice(sign);
-			if (price < 0)
+			if (price < 0) {
+				setFail();
 				throw new ExceptionInInitializerError(Lang.SHOP_PRICE);
+			}
 		}
 		setOwner(player);
 		ShopsData.clearItemLocations(player);

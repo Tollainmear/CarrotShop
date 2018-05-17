@@ -32,7 +32,7 @@ public class aToggle extends Shop {
 	@Setting
 	private Location<World> lever;
 	@Setting
-	private int price;
+	private float price;
 	
 	static private String type = "aToggle";
 
@@ -54,8 +54,10 @@ public class aToggle extends Shop {
 
 		if (CarrotShop.getEcoService() != null) {
 			price = getPrice(sign);
-			if (price < 0)
+			if (price < 0) {
+				setFail();
 				throw new ExceptionInInitializerError(Lang.SHOP_PRICE);
+			}
 		}
 
 		ShopsData.clearItemLocations(player);

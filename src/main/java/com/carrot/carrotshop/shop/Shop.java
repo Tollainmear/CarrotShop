@@ -164,7 +164,7 @@ public abstract class Shop {
 		currency = first;
 	}
 
-	protected final String formatPrice(int value) {
+	protected final String formatPrice(float value) {
 		return formatPrice(BigDecimal.valueOf(value));
 	}
 	
@@ -202,15 +202,21 @@ public abstract class Shop {
 		extent.spawnEntity(item);
 	}
 
-	static protected final int getPrice(Location<World> location) {
+	static protected final float getPrice(Location<World> location) {
 		Optional<TileEntity> sign = location.getTileEntity();
 		if (sign.isPresent() && sign.get().supports(SignData.class)) {
 			Optional<SignData> data = sign.get().get(SignData.class);
 			if (data.isPresent()) {
-				String priceLine = data.get().lines().get(3).toPlain().replaceAll("[^\\d]", "");
+				String priceLine = data.get().lines().get(3).toPlain();
 				if (priceLine.length() == 0)
 					return 0;
-				return Integer.parseInt(priceLine);
+				float price = -1;
+				try {
+					price = Float.parseFloat(priceLine);
+				}catch (NumberFormatException e){
+					return price;
+				}
+				return price;
 			}
 		}
 		return -1;
