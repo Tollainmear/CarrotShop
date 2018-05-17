@@ -35,6 +35,10 @@ public class PlayerClickListener {
 
 		Optional<List<Shop>> shops = ShopsData.getShops(optLoc.get());
 		if (shops.isPresent()) {
+			if ((player.getItemInHand(HandTypes.MAIN_HAND).isPresent())||(player.getItemInHand(HandTypes.OFF_HAND).isPresent())){
+				player.sendMessage(Text.of("You should right click this shop with empty hands(Both of main_hand and off_hand)."));
+				return;
+			}
 			shops.get().forEach((shop) -> {
 				if (shop.getLocation().equals(optLoc.get())) {
 					shop.trigger(player);
